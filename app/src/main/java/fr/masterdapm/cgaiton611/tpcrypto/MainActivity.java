@@ -1,11 +1,14 @@
 package fr.masterdapm.cgaiton611.tpcrypto;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -31,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText msg;
     EditText mdp;
-    TextView cle;
+//    TextView cle;
     TextView res;
+    ClipboardManager myClipboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +43,69 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         msg = findViewById(R.id.msg);
         mdp = findViewById(R.id.mdp);
-        cle = findViewById(R.id.cle);
+//        cle = findViewById(R.id.cle);
         res = findViewById(R.id.res);
+        myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
     }
 
 
     public void chiffrer(View v) {
-        byte[] bytes = Chiffre(mdp.getText().toString().toCharArray(), msg.getText().toString().getBytes());
-        String cryptoB64 = Base64.encodeToString(bytes, 0, bytes.length, Base64.NO_PADDING | Base64.NO_WRAP);
-        res.setText(cryptoB64);
+        if( msg.getText().toString().length() == 0){
+            Toast.makeText(this, "No message", Toast.LENGTH_SHORT).show();
+        } else if (mdp.getText().toString().length() == 0){
+            Toast.makeText(this, "No password", Toast.LENGTH_SHORT).show();
+        } else {
+            byte[] bytes = Chiffre(mdp.getText().toString().toCharArray(), msg.getText().toString().getBytes());
+            String cryptoB64 = Base64.encodeToString(bytes, 0, bytes.length, Base64.NO_PADDING | Base64.NO_WRAP);
+            res.setText(cryptoB64);
+        }
     }
 
     public void dechiffrer(View v){
-        byte[] cryptogram;
-        cryptogram = Base64.decode(msg.getText().toString(), Base64.NO_PADDING | Base64.NO_WRAP);
-        byte[] dechiffre = Dechiffre(mdp.getText().toString().toCharArray(), cryptogram);
-        res.setText(new String(dechiffre, StandardCharsets.UTF_8));
+        if( mdp.getText().toString().length() == 0){
+            Toast.makeText(this, "No cryptogram", Toast.LENGTH_SHORT).show();
+        } else if (msg.getText().toString().length() == 0) {
+            Toast.makeText(this, "No password", Toast.LENGTH_SHORT).show();
+        } else {
+            byte[] cryptogram;
+            try {
+                cryptogram = Base64.decode(msg.getText().toString(), Base64.NO_PADDING | Base64.NO_WRAP);
+            }
+            catch (IllegalArgumentException e){
+                Toast.makeText(this, "Bad cryptogram", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (cryptogram.length < (16 + 16)) {
+                Toast.makeText(this, "Bad cryptogram", Toast.LENGTH_SHORT).show();
+            } else {
+                byte[] dechiffre = Dechiffre(mdp.getText().toString().toCharArray(), cryptogram);
+                if(dechiffre == null){
+                    Toast.makeText(this, "Bad cryptogram or password", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    res.setText(new String(dechiffre, StandardCharsets.UTF_8));
+                }
+            }
+        }
+    }
+
+
+    public void copy(View v){
+        ClipData myClip;
+        myClip = ClipData.newPlainText("text", res.getText().toString());
+        myClipboard.setPrimaryClip(myClip);
+        Toast.makeText(this, "Copied", Toast.LENGTH_SHORT).show();
+    }
+
+    public void paste(View v){
+        if (myClipboard.hasPrimaryClip()){
+            ClipData myClip = myClipboard.getPrimaryClip();
+            msg.setText(myClip.getItemAt(0).getText());
+        }
+        else{
+            Toast.makeText(this, "Nothing to paste", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -85,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             secureRandom.nextBytes(sel);
 
             SecretKey secretKey = GenAESKeyFromPass(mdp.getText().toString().toCharArray(), sel, 10000, 128);
-            cle.setText(Base64.encodeToString(secretKey.getEncoded(), 0, 128/8, Base64.NO_PADDING | Base64.NO_WRAP));
+//            cle.setText(Base64.encodeToString(secretKey.getEncoded(), 0, 128/8, Base64.NO_PADDING | Base64.NO_WRAP));
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -122,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             byteBuffer.get(chiffre, 0, cryptogram.length - 256/8);
 
             SecretKey secretKey = GenAESKeyFromPass(mdp.getText().toString().toCharArray(), sel, 10000, 128);
-            cle.setText(Base64.encodeToString(secretKey.getEncoded(), 0, 128/8, Base64.NO_PADDING | Base64.NO_WRAP));
+//            cle.setText(Base64.encodeToString(secretKey.getEncoded(), 0, 128/8, Base64.NO_PADDING | Base64.NO_WRAP));
 
             Cipher cipherIV = Cipher.getInstance("AES/ECB/NoPadding");
             cipherIV.init(Cipher.DECRYPT_MODE, secretKey);
