@@ -4,6 +4,7 @@
 
 .idea
 *.iml
+app/release
 
 ### Android ###
 # Built application files
