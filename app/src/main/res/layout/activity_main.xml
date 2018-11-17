@@ -4,25 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/abstract_envelope"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:padding="8dp">
+
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/title_purple"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:adjustViewBounds="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/border_ll">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Message :  "/>
 
             <EditText
                 android:id="@+id/msg"
@@ -30,74 +40,82 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"/>
+                android:layout_marginRight="12dp"
+                android:background="@drawable/edittext_no_underline"
+                android:hint="Message :"
+                android:textColorHint="#999999"
+                android:maxLines="3"/>
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
                 android:text="Paste"
-                android:onClick="paste"/>
+                android:textColor="#FFFFFF"
+                android:onClick="paste"
+                android:background="@drawable/border_cc"
+                />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/border_ll">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password :"/>
 
             <EditText
                 android:id="@+id/mdp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"/>
+                android:layout_marginRight="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_no_underline"
+                android:inputType="textPassword"
+                android:hint="Password :"
+                android:textColorHint="#999999"
+                android:maxLines="1" />
 
         </LinearLayout>
 
         <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Key :           "/>-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Key :           "/>-->
 
-            <!--<EditText-->
-                <!--android:id="@+id/cle"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_marginLeft="12dp"-->
-                <!--android:layout_marginRight="12dp"-->
-                <!--android:clickable="false"-->
-                <!--android:cursorVisible="false"-->
-                <!--android:focusable="false"-->
-                <!--android:focusableInTouchMode="false" />-->
+        <!--<EditText-->
+        <!--android:id="@+id/cle"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_marginLeft="12dp"-->
+        <!--android:layout_marginRight="12dp"-->
+        <!--android:clickable="false"-->
+        <!--android:cursorVisible="false"-->
+        <!--android:focusable="false"-->
+        <!--android:focusableInTouchMode="false" />-->
 
         <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/border_ll">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Result :      "/>
 
             <EditText
                 android:id="@+id/res"
@@ -106,16 +124,24 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:background="@drawable/edittext_no_underline"
+                android:hint="Result"
+                android:textColorHint="#999999"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:maxLines="3"/>
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
                 android:text="Copy"
-                android:onClick="copy"/>
+                android:textColor="#FFFFFF"
+                android:onClick="copy"
+                android:background="@drawable/border_cc"
+                />
 
         </LinearLayout>
 
@@ -123,6 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
             android:orientation="horizontal"
             android:gravity="center">
 
@@ -130,18 +157,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="26dp"
+                android:background="@drawable/border_bb"
                 android:text="Cipher"
+                android:textColor="#FFFFFF"
                 android:onClick="chiffrer"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="26dp"
+                android:background="@drawable/border_bb"
                 android:text="Decipher"
+                android:textColor="#FFFFFF"
                 android:onClick="dechiffrer"/>
 
         </LinearLayout>
-    </LinearLayout>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="© EthericStd"
+            android:textColor="#888888"/>
+
+
+    </LinearLayout>
 
 </ScrollView>

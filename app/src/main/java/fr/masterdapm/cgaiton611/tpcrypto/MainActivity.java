@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
             byte[] bytes = Chiffre(mdp.getText().toString().toCharArray(), msg.getText().toString().getBytes());
             String cryptoB64 = Base64.encodeToString(bytes, 0, bytes.length, Base64.NO_PADDING | Base64.NO_WRAP);
             res.setText(cryptoB64);
+            msg.setText("");
+            mdp.setText("");
         }
     }
 
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     res.setText(new String(dechiffre, StandardCharsets.UTF_8));
+                    msg.setText("");
+                    mdp.setText("");
                 }
             }
         }
